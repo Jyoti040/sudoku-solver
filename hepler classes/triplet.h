@@ -2,6 +2,7 @@
 #ifndef TRIPLET_H
 #define TRIPLET_H
 
+using namespace std;
 class triplet{
     public:
       int row,col,val;
