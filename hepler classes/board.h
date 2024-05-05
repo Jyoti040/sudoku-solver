@@ -8,6 +8,7 @@
 using namespace std;
  
 class board{
+    public :
     int size;
     int** matrix;
 
