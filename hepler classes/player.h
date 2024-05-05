@@ -10,21 +10,24 @@
       string phone_no;
       string email;
 public :
-      player(){
-        cout<<endl<<"Enter your details : "<<endl;
-        string s,p,e;
-        int a;
-        cout<<"Enter your name :  ";
-        cin>>s;
+ player(){
+
+ }
+      player(string s, string p,string e,int a){ // if repition make it parameterised
+        // cout<<endl<<"Enter your details : "<<endl;
+        // string s,p,e;
+        // int a;
+        // cout<<"Enter your name :  ";
+        // cin>>s;
         name=s;
-         cout<<"Enter your age :  ";
-        cin>>a;
+        //  cout<<"Enter your age :  ";
+        // cin>>a;
         age=a;
-         cout<<"Enter your phone number  :  ";
-        cin>>p;
+        //  cout<<"Enter your phone number  :  ";
+        // cin>>p;
         phone_no=p;
-         cout<<"Enter your email id  :  ";
-        cin>>e;
+        //  cout<<"Enter your email id  :  ";
+        // cin>>e;
         email=e;
       }
         void getPlayerName(){

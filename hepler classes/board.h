@@ -22,7 +22,7 @@ class board{
         for(int i=0; i<size; i++){
             matrix[i]=new int[size];
 
-            memset(matrix[i],0,size*sizeof(int));
+            memset(matrix[i],0,(size)*sizeof(int));
         }
         //  for(int i=0 ; i<size ;i++){
         //     for(int j=0; j<size; j++){
@@ -33,7 +33,7 @@ class board{
     }
     void printBoard(){
         cout<<endl<<"Board is : "<<endl;
-        for(int i=0 ; i<size ;i++){
+        for(int i=0; i<size ;i++){
             for(int j=0; j<size; j++){
                 cout<<matrix[i][j]<<"  ";
             }

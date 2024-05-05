@@ -1,53 +1,87 @@
 #include<iostream>
-#include "player.h"
-#include "board.h"
-#ifndef GAME_H
-#define GAME_H
+#include "./board.h"
+#include "./player.h"
+using namespace std;
 
-class game{
-     board gameBoard;
-     player gamePlayer;
+ class game {
 
-    bool isValidPos(int row,int col, int i){
-        
+    board Gameboard;
+    player Gameplayer;
+
+    public: 
+     game(board b, player p) {
+        Gameboard = b;
+        Gameplayer = p;
     }
 
-     void  solveSudoku(int row, int col){
-         int newR=0;
-         int newC=0;
-        if(col==gameBoard.size-1){
-            newR=row+1;
-            newC=0;
-        }else{
-            newC=col+1;
+    public:
+     void play() {
+        solveSudoku(0,0);
+    }
+
+    public :
+public :
+    void solveSudoku(int row, int col) {
+        if (row >= Gameboard.size) {
+            cout << "Sudoku Solved!!!!! by ";
+            Gameplayer.getPlayerName();
+            Gameboard.printBoard();
+            return;
         }
 
-        if(gameBoard.matrix[row][col] !=0 ){
-            solveSudoku(newR,newC);
+        int nrow = 0, ncol = 0;
+
+        if (col == Gameboard.size - 1) {
+            nrow = row + 1;
+            ncol = 0;
+        } else {
+            nrow = row;
+            ncol = col + 1;
         }
-        else{
-            for(int i=1; i<=9; i++){  //checking for all possibility 
-              if(isValidPos(row,col,i)){   //checking if valid pos or  not
-                 gameBoard.matrix[row][col]=i;
-                 solveSudoku(newR,newC);
-                 gameBoard.matrix[row][col]=0;  //backtracking 
-              }
+
+        if (Gameboard.matrix[row][col] != 0) {
+            cout << "Skipping filled cell at (" << row << ", " << col << ")" << endl;
+            solveSudoku(nrow, ncol);
+        } else {
+            for (int i = 1; i <= 9; i++) {
+                if (validPos(row, col, i)==true) {
+                    cout << "Placing " << i << " at (" << row << ", " << col << ")" << endl;
+                    Gameboard.matrix[row][col] = i;
+                    solveSudoku(nrow, ncol);
+                    Gameboard.matrix[row][col] = 0; // Backtrack
+                    cout << "Backtracked from (" << row << ", " << col << ")" << endl;
+                }
             }
         }
-     }
-
-public :
-     game(  board b, player p){
-            gamePlayer=p;
-            gameBoard=b;
-     }
-   
-    void play(){
-        solveSudoku(0,0);
-
-
     }
 
 
+    private :
+     bool validPos( int row, int col, int val) {
+        
+        for(int i=0;i<Gameboard.size;i++) {
+            if(Gameboard.matrix[row][i] == val) {
+                return false;
+            }
+        }
+
+        for(int i=0;i<Gameboard.size; i++) {
+            if(Gameboard.matrix[i][col] == val) {
+                return false;
+            }
+        }
+
+        int tempRow = row/3*3;
+        int tempCol = col/3*3;
+
+        for(int i=0;i<3;i++) {
+            for(int j=0;j<3;j++) {
+                if (Gameboard.matrix[tempRow + i][tempCol + j] == val) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
 };
-#endif
