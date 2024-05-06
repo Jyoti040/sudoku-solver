@@ -4,9 +4,26 @@
 using namespace std;
 
  class game {
-
+public:
     board Gameboard;
     player Gameplayer;
+
+    bool isSafe(char val, int r , int c){
+           for(int i=0; i<Gameboard.size; i++){
+                  if(Gameboard.matrix[r][i]==val){
+                    return false;
+                  }
+                   if(Gameboard.matrix[i][c]==val){
+                    return false;
+                  }
+                  int nr=3*(r/3)+i/3;
+                  int nc=3*(c/3)+i%3;
+                  if(Gameboard.matrix[nr][nc]==val){
+                    return false;
+                  }
+           }
+           return true;
+    }
 
     public: 
      game(board b, player p) {
@@ -16,72 +33,29 @@ using namespace std;
 
     public:
      void play() {
-        solveSudoku(0,0);
+        solveSudoku();
     }
-
     public :
-public :
-    void solveSudoku(int row, int col) {
-        if (row >= Gameboard.size) {
-            cout << "Sudoku Solved!!!!! by ";
-            Gameplayer.getPlayerName();
-            Gameboard.printBoard();
-            return;
-        }
-
-        int nrow = 0, ncol = 0;
-
-        if (col == Gameboard.size - 1) {
-            nrow = row + 1;
-            ncol = 0;
-        } else {
-            nrow = row;
-            ncol = col + 1;
-        }
-
-        if (Gameboard.matrix[row][col] != 0) {
-            cout << "Skipping filled cell at (" << row << ", " << col << ")" << endl;
-            solveSudoku(nrow, ncol);
-        } else {
-            for (int i = 1; i <= 9; i++) {
-                if (validPos(row, col, i)==true) {
-                    cout << "Placing " << i << " at (" << row << ", " << col << ")" << endl;
-                    Gameboard.matrix[row][col] = i;
-                    solveSudoku(nrow, ncol);
-                    Gameboard.matrix[row][col] = 0; // Backtrack
-                    cout << "Backtracked from (" << row << ", " << col << ")" << endl;
+   bool solveSudoku(){
+     for(int i=0; i<Gameboard.size;i++){
+        for(int j=0; j<Gameboard.size ; j++){
+            if(Gameboard.matrix[i][j]=='.'){
+                for(char ch='1'; ch<='9'; ch++){
+                    if(isSafe(ch,i,j)==true){
+                        Gameboard.matrix[i][j]=ch;
+                        bool ans=solveSudoku();
+                        if(ans){
+                            return true;
+                        }else{
+                            Gameboard.matrix[i][j]='.';
+                        }
+                    }
                 }
-            }
-        }
-    }
-
-
-    private :
-     bool validPos( int row, int col, int val) {
-        
-        for(int i=0;i<Gameboard.size;i++) {
-            if(Gameboard.matrix[row][i] == val) {
                 return false;
             }
         }
-
-        for(int i=0;i<Gameboard.size; i++) {
-            if(Gameboard.matrix[i][col] == val) {
-                return false;
-            }
-        }
-
-        int tempRow = row/3*3;
-        int tempCol = col/3*3;
-
-        for(int i=0;i<3;i++) {
-            for(int j=0;j<3;j++) {
-                if (Gameboard.matrix[tempRow + i][tempCol + j] == val) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
+     }
+     return true;
+   }
+    
 };
