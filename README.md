@@ -8,4 +8,4 @@ This is a C++ implementation of a Sudoku solver. It allows users to input a Sudo
 
 # Usage
 1. Enter the numbers for the Sudoku puzzle row by row, following the prompts.
-2. The solver will attempt to solve the puzzle and display the solved puzzle if a solution exists.
+2. The sudoko solver will attempt to solve the puzzle and display the solved puzzle if the solution exists.
